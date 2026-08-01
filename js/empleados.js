@@ -21,7 +21,6 @@ async function init() {
     if (rolActual === "RH") {
       const usuarios = await Api.get("/usuarios");
       usuariosEmpleadoCache = usuarios.datos.filter(u => u.rol === "EMPLEADO");
-      llenarSelectUsuario();
     }
 
     pintarTabla(empleadosCache);
@@ -30,8 +29,19 @@ async function init() {
   }
 }
 
-function llenarSelectUsuario() {
+// La vinculacion es 1 a 1: se excluyen los usuarios que ya estan ligados a OTRO
+// empleado. Al editar, el propio usuario vinculado del empleado actual se deja
+// disponible (idEmpleadoActual se excluye de la exclusion), o desaparecería de
+// sus propias opciones y el select se veria vacio para su valor actual.
+function llenarSelectUsuario(idEmpleadoActual) {
+  const vinculados = new Set(
+    empleadosCache
+      .filter(e => e.usuarioId && e.id !== idEmpleadoActual)
+      .map(e => e.usuarioId)
+  );
+
   const opciones = usuariosEmpleadoCache
+    .filter(u => !vinculados.has(u.id))
     .map(u => `<option value="${u.id}">${u.username} — ${u.nombreCompleto}</option>`)
     .join("");
   document.getElementById("campoUsuarioId").innerHTML = '<option value="">Sin vincular</option>' + opciones;
@@ -107,6 +117,7 @@ function abrirNuevo() {
   document.getElementById("campoMoneda").value = "MXN";
   document.getElementById("campoSalario").value = "";
   document.getElementById("campoFechaIngreso").value = "";
+  if (rolActual === "RH") llenarSelectUsuario(null);
   document.getElementById("campoUsuarioId").value = "";
   actualizarVisibilidadMoneda();
   limpiarValidez();
@@ -130,6 +141,7 @@ function abrirEditar(id) {
   document.getElementById("campoMoneda").value = empleado.moneda;
   document.getElementById("campoSalario").value = empleado.salarioMensual;
   document.getElementById("campoFechaIngreso").value = empleado.fechaIngreso.slice(0, 10);
+  if (rolActual === "RH") llenarSelectUsuario(empleado.id);
   document.getElementById("campoUsuarioId").value = empleado.usuarioId || "";
   actualizarVisibilidadMoneda();
   limpiarValidez();
