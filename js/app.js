@@ -3,9 +3,13 @@
 
 const API_URL = "https://localhost:44334/api";
 
-// Rutas absolutas desde la raiz del sitio (Live Server sirve frontend/ como raiz):
-// asi Auth.rutaPorRol / Auth.rutaLogin funcionan igual sin importar si quien las
-// invoca esta en index.html o en paginas/algo.html.
+// Rutas relativas a la pagina que llama, nunca absolutas ("/..."): Live Server no
+// siempre sirve frontend/ como raiz del servidor (depende de que carpeta abrio VS
+// Code), asi que una ruta que empiece con "/" puede apuntar fuera del sitio.
+function estaEnPaginas() {
+  return location.pathname.includes("/paginas/");
+}
+
 const Auth = {
   guardarSesion(token, usuario) {
     sessionStorage.setItem("token", token);
@@ -46,17 +50,21 @@ const Auth = {
   },
 
   rutaPorRol(rol) {
-    const rutas = {
-      ADMIN: "/paginas/usuarios.html",
-      RH: "/paginas/empleados.html",
-      FINANZAS: "/paginas/periodos.html",
-      EMPLEADO: "/paginas/mis-recibos.html"
+    const paginas = {
+      ADMIN: "usuarios.html",
+      RH: "empleados.html",
+      FINANZAS: "periodos.html",
+      EMPLEADO: "mis-recibos.html"
     };
-    return rutas[rol] || Auth.rutaLogin();
+    const archivo = paginas[rol];
+    if (!archivo) return Auth.rutaLogin();
+    // Desde index.html el destino esta en paginas/; desde otra pagina de
+    // paginas/ el destino es un hermano en la misma carpeta.
+    return estaEnPaginas() ? archivo : "paginas/" + archivo;
   },
 
   rutaLogin() {
-    return "/index.html";
+    return estaEnPaginas() ? "../index.html" : "index.html";
   }
 };
 
@@ -105,21 +113,23 @@ const UI = {
     const contenedor = document.getElementById("navbar");
     if (!contenedor) return;
 
+    // El navbar solo se pinta desde dentro de paginas/, asi que estos son
+    // siempre hermanos en la misma carpeta (sin prefijo).
     const menus = {
       ADMIN: [
-        { texto: "Usuarios", href: "/paginas/usuarios.html" },
-        { texto: "Parametros", href: "/paginas/parametros.html" }
+        { texto: "Usuarios", href: "usuarios.html" },
+        { texto: "Parametros", href: "parametros.html" }
       ],
       RH: [
-        { texto: "Empleados", href: "/paginas/empleados.html" },
-        { texto: "Periodos", href: "/paginas/periodos.html" }
+        { texto: "Empleados", href: "empleados.html" },
+        { texto: "Periodos", href: "periodos.html" }
       ],
       FINANZAS: [
-        { texto: "Periodos", href: "/paginas/periodos.html" },
-        { texto: "Empleados", href: "/paginas/empleados.html" }
+        { texto: "Periodos", href: "periodos.html" },
+        { texto: "Empleados", href: "empleados.html" }
       ],
       EMPLEADO: [
-        { texto: "Mis recibos", href: "/paginas/mis-recibos.html" }
+        { texto: "Mis recibos", href: "mis-recibos.html" }
       ]
     };
 
