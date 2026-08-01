@@ -167,6 +167,12 @@ const UI = {
     return new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" }).format(n);
   },
 
+  // Prefijo manual ("US$") en vez de Intl con currency:"USD": Intl usa el mismo
+  // simbolo "$" para USD y MXN, y aqui se muestran ambas una junto a la otra.
+  monedaUSD(n) {
+    return "US$ " + new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
+  },
+
   fecha(iso) {
     return new Date(iso).toLocaleDateString("es-MX", { day: "2-digit", month: "2-digit", year: "numeric" });
   },
