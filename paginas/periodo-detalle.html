@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinAnalytics OS · Detalle del periodo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <div id="navbar"></div>
+  <div id="alertas"></div>
+
+  <main class="container">
+    <a href="periodos.html" class="d-inline-block mb-3">&larr; Volver a periodos</a>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h1 class="h4 mb-1" id="descripcion"></h1>
+            <p class="text-muted mb-2" id="fechas"></p>
+          </div>
+          <div id="estado"></div>
+        </div>
+
+        <div class="row text-center g-3 mt-2">
+          <div class="col-6 col-md-3">
+            <div class="text-muted small">Percepciones</div>
+            <div class="fs-5" id="totalPercepciones"></div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="text-muted small">Deducciones</div>
+            <div class="fs-5" id="totalDeducciones"></div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="text-muted small">Neto a pagar</div>
+            <div class="fs-5" id="totalNeto"></div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="text-muted small">Carga patronal</div>
+            <div class="fs-5" id="totalCargaPatronal"></div>
+          </div>
+        </div>
+
+        <div id="bloqueTipoCambio" class="mt-3 pt-3 border-top d-none">
+          <span class="text-muted small">Tipo de cambio USD aplicado:</span>
+          <strong id="tipoCambioValor"></strong>
+          <span id="tipoCambioFuente"></span>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="h5 mb-3">Recibos generados</h2>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle bg-white">
+        <thead>
+          <tr>
+            <th>N° Empleado</th>
+            <th>Nombre</th>
+            <th>Neto a pagar</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tbodyRecibos"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/periodo-detalle.js"></script>
+</body>
+</html>
