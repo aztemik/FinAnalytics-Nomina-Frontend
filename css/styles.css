@@ -1,0 +1,58 @@
+/* Ajustes minimos sobre Bootstrap: paleta corporativa (azul petroleo / teal
+   del Producto 01), ancho del contenedor y espaciado de tablas. */
+
+:root {
+  --azul-petroleo: #0f3d47;
+  --teal: #1b998b;
+}
+
+body {
+  background-color: #f4f6f7;
+}
+
+.navbar {
+  background-color: var(--azul-petroleo);
+}
+
+.navbar-brand {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+body.pagina-login {
+  min-height: 100vh;
+  background-color: var(--azul-petroleo);
+}
+
+main.container {
+  max-width: 1100px;
+}
+
+.card {
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.table-responsive {
+  margin-top: 1rem;
+}
+
+.btn-teal {
+  background-color: var(--teal);
+  border-color: var(--teal);
+  color: #fff;
+}
+
+.btn-teal:hover {
+  background-color: #167f73;
+  border-color: #167f73;
+  color: #fff;
+}
+
+#alertas {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1080;
+  min-width: 320px;
+}

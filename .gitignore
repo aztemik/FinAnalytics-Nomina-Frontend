@@ -1,0 +1,8 @@
+# Indicaciones de IA / guias de estudio - uso local, no se versionan
+PLAN_FRONTEND.md
+ESTUDIO_FRONTEND.md
+
+# Editor / SO
+.vscode/
+Thumbs.db
+desktop.ini
